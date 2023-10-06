@@ -7,23 +7,23 @@ import HeadComponent from '../components/Head';
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-// Constantes
-const TWITTER_HANDLE = "web3dev_";
-const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
+//Twitter
+const TWITTER_HANDLE = "TrustyCryptoGaming";
+const TWITTER_LINK = `https://twitter.com/TrustyCryptoG`;
 
 const App = () => {
   
   const { publicKey } = useWallet();
+  
+  //Identificando o Dono da Wallet
   const isOwner = ( publicKey ? publicKey.toString() === process.env['NEXT_PUBLIC_OWNER_PUBLIC_KEY'] : false );
-
+  
   const [creating, setCreating] = useState(false);
   const [products, setProducts] = useState([]);
  
   const renderNotConnectedContainer = () => (
     <div>
-      <img src="https://media.tenor.com/v9XIZ3ZgKvEAAAAM/moon-earths-moon.gif" alt="moon" />
-
-      <div className="button-container">
+    <div className="button-container">
         <WalletMultiButton className="cta-button connect-wallet-button" />
       </div>    
     </div>
@@ -31,20 +31,13 @@ const App = () => {
  
   useEffect(() => {
     if (publicKey) {
-      fetch(`/api/fetchProducts`)
-        .then(response => response.json())
-        .then(data => {
-          setProducts(data);
-          console.log("Produtos", data);
-        });
+      console.log("WALLET CONNECTED");
     }
   }, [publicKey]);
 
   const renderItemBuyContainer = () => (
     <div className="products-container">
-      {products.map((product) => (
-        <Product key={product.id} product={product} />
-      ))}
+       <p className="header"> Welcome to Trusty Crypto Gaming</p>
     </div>
   );
 
@@ -53,21 +46,20 @@ const App = () => {
       <HeadComponent/>
       <div className="container">
         <header className="header-container">
-          <p className="header"> 🌚 Loja da Lua 😈</p>
-          <p className="sub-text">Aqui você pode comprar um pedacinho da lua somente seu</p>
-
-          {isOwner && (
-            <button className="create-product-button" onClick={() => setCreating(!creating)}>
-              {creating ? "Close" : "Criar Produto"}
-            </button>
-          )}
+          <p className="header"></p>
+          <p className="sub-text"></p>        
         </header>
 
+
+
+        
         <main>
           {creating && <CreateProduct />}
           {publicKey ? renderItemBuyContainer() : renderNotConnectedContainer()}
         </main>
 
+        
+        
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src="twitter-logo.svg" />
           <a
@@ -75,7 +67,7 @@ const App = () => {
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-          >{`contruido na @${TWITTER_HANDLE}`}</a>
+          >{`Solana Hackathon @${TWITTER_HANDLE}`}</a>
         </div>
       </div>
     </div>
